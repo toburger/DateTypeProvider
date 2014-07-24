@@ -8,7 +8,7 @@ open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Reflection
 open ProviderImplementation.ProvidedTypes
 
-module Date =
+module DateUtils =
     let getMonthName =
         let dtfi = DateTimeFormatInfo()
         fun month -> dtfi.GetMonthName(month)
@@ -16,6 +16,12 @@ module Date =
     let getDaysInMonth =
         let calendar = CultureInfo.InvariantCulture.Calendar
         fun (year, month) -> calendar.GetDaysInMonth(year, month)
+
+type Date =
+    { Year : int
+      Month : int
+      Day : int }
+    override self.ToString() = sprintf "%04d.%02d.%02d" self.Year self.Month self.Day
 
 [<TypeProvider>]
 type DateTypeProvider() as self =
@@ -31,9 +37,9 @@ type DateTypeProvider() as self =
                                                IsErased = true)
     
     let daysProp (year, month, day) =
-        let getter _ = <@@ DateTimeOffset(year, month, day, 0, 0, 0, TimeSpan(0L)) @@>
+        let getter _ = <@@ { Year = year; Month = month; Day = day } @@>
         let prop = ProvidedProperty(propertyName = day.ToString("d2"),
-                                    propertyType = typeof<DateTimeOffset>,
+                                    propertyType = typeof<Date>,
                                     IsStatic = true,
                                     GetterCode = getter)
         prop.AddXmlDocDelayed(fun () -> (DateTime(year, month, day)).ToLongDateString())
@@ -42,7 +48,7 @@ type DateTypeProvider() as self =
     let monthType className (year, month) =
         let t = ProvidedTypeDefinition(className month, None, IsErased = true)
         t.AddMembersDelayed(fun () ->
-            let days = Date.getDaysInMonth (year, month)
+            let days = DateUtils.getDaysInMonth (year, month)
             [ for day in 1..days -> daysProp (year, month, day) ])
         t.AddXmlDocDelayed(fun () -> (DateTime(year, month, 1)).ToString("MMMM yyyy"))
         t
@@ -52,7 +58,7 @@ type DateTypeProvider() as self =
         t.AddMembersDelayed(fun () ->
             [ for month in 1..12 do
                 yield monthType (fun m -> m.ToString("d2")) (year, month)
-                yield monthType (Date.getMonthName) (year, month) ])
+                yield monthType (DateUtils.getMonthName) (year, month) ])
         t.AddXmlDocDelayed(fun () -> year.ToString("d4"))
         t
 
@@ -65,3 +71,10 @@ type DateTypeProvider() as self =
 
 [<TypeProviderAssembly>]
 do ()
+
+type Date with
+    member self.ToDateTime() =
+        DateTime(self.Year, self.Month, self.Day)
+    member self.ToDateTimeOffset(?offset) =
+        let offset = offset |> defaultArg <| TimeSpan.Zero
+        DateTimeOffset(self.Year, self.Month, self.Day, 0, 0, 0, offset)
