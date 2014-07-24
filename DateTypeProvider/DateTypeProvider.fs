@@ -30,7 +30,7 @@ type DateTypeProvider() as self =
                                                None,
                                                IsErased = true)
     
-    let daysProp (year, month, day: int) =
+    let daysProp (year, month, day) =
         let getter _ = <@@ DateTimeOffset(year, month, day, 0, 0, 0, TimeSpan(0L)) @@>
         let prop = ProvidedProperty(propertyName = day.ToString("d2"),
                                     propertyType = typeof<DateTimeOffset>,
@@ -39,7 +39,7 @@ type DateTypeProvider() as self =
         prop.AddXmlDocDelayed(fun () -> (DateTime(year, month, day)).ToLongDateString())
         prop
 
-    let monthType className (year, month: int) =
+    let monthType className (year, month) =
         let t = ProvidedTypeDefinition(className month, None, IsErased = true)
         t.AddMembersDelayed(fun () ->
             let days = Date.getDaysInMonth (year, month)
