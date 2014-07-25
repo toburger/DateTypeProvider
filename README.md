@@ -20,9 +20,9 @@ Example
 open DateProvider
 
 // dates can be represented with month digits
-Date.``2000``.``02``.``29``.ToDateTime()
+Date.``2004``.``02``.``29``.ToDateTime()
 // or with month names
-Date.``2000``.February.``29``.ToDateTime()
+Date.``2004``.February.``29``.ToDateTime()
 
 // does not compile
 Date.``2002``.``13``.``10``.ToDateTime()
