@@ -3,16 +3,16 @@ DateTypeProvider
 
 F# Date Type Provider which provides strong type checking for dates.
 
+> This is only a sample project to learn how to develop an F# Type provider.    
+> You should definitely check out Phil Trelfords [FSharp.Date](https://bitbucket.org/ptrelford/fsharp.date).
+> It is also available as [NuGet package](http://www.nuget.org/packages/FSharp.Date/).
+
 Reason for the Type Provider
 ----------------------------
 
 After watching [this video](https://vimeo.com/97349221) from Scott Meyers
 where he showed an example of a strongly typed datetime class
 I thought this is a good fit for an F# Type Provider.
-
-> This is only a sample project to learn how to develop an F# Type provider.    
-> You should definitely check out Phil Trelfords [FSharp.Date](https://bitbucket.org/ptrelford/fsharp.date).
-> It is also available as [NuGet package](http://www.nuget.org/packages/FSharp.Date/).
 
 Example
 -------
