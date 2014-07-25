@@ -27,6 +27,13 @@ DateProvider.Date.``2002``.``02``.``29``.ToDateTime()
 
 // you can also return a DateTimeOffset
 DateProvider.Date.``2002``.``13``.``10``.ToDateTimeOffset()
+
+// you can also provide a century parameter
+type C21 = Date<century = Century.``21``> // returns years from 2001 to 2100
+printfn "%A" <| C21.``2012``.November.``01``.ToDateTime()
+
+type C18 = Date<century = Century.``18``> // returns years from 1701 to 1800
+printfn "%A" <| C18.``1789``.July.``14``.ToDateTime()
 ```
 
 Footnotes
