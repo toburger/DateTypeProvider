@@ -11,7 +11,7 @@ where he showed an example of a strongly typed datetime class
 I thought this is a good fit for an F# Type Provider.
 
 
-_I had to limit the years because intellisense stopped working when providing too many years. Maybe this can be fixed, but I don't know how._
+_I had to limit the years because IntelliSense stopped working when providing too many years. Maybe this can be fixed, but I don't know how._
 
 Example
 -------
@@ -57,3 +57,15 @@ I sticked with the DateTimeOffset (for now) because I didn't wanted to add the d
 
 It returns a ```Date``` record with the Fields ```Year```, ```Month``` and ```Day```. You can call the methods ```ToDateTime()``` and ```ToDateTimeOffset(?offset)``` to return a ```DateTime``` or a ```DateTimeOffset```.    
 Likewise you can write your own extension method to return a NodaTime ```LocalDate```.
+
+Working with NodaTime
+---------------------
+```fsharp
+open NodeTime
+
+type FSharp.DateTypeProvider.Date with
+    member self.ToLocalDate() =
+        LocalDate(self.Year, self.Month, self.Day)
+
+printfn "%A" <| Date.``2013``.February.``01``.ToLocalDate()
+```
