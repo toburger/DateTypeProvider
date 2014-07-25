@@ -16,17 +16,19 @@ _I had to limit the years because intellisense stopped working when providing to
 Example
 -------
 ```fsharp
+open DateProvider
+
 // dates can be represented with month digits
-DateProvider.Date.``2000``.``02``.``29``.ToDateTime()
+Date.``2000``.``02``.``29``.ToDateTime()
 // or with month names
-DateProvider.Date.``2000``.February.``29``.ToDateTime()
+Date.``2000``.February.``29``.ToDateTime()
 
 // does not compile
-DateProvider.Date.``2002``.``13``.``10``.ToDateTime()
-DateProvider.Date.``2002``.``02``.``29``.ToDateTime()
+Date.``2002``.``13``.``10``.ToDateTime()
+Date.``2002``.``02``.``29``.ToDateTime()
 
 // you can also return a DateTimeOffset
-DateProvider.Date.``2002``.``13``.``10``.ToDateTimeOffset()
+Date.``2002``.``13``.``10``.ToDateTimeOffset()
 
 // you can also provide a century parameter
 type C21 = Date<century = Century.``21``> // returns years from 2001 to 2100
