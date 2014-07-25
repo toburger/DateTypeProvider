@@ -1,14 +1,18 @@
 DateTypeProvider
 ================
 
-F# date type provider which provides strong type checking for dates.
+F# Date Type Provider which provides strong type checking for dates.
 
 Reason for the Type Provider
 ----------------------------
 
-After watching this video https://vimeo.com/97349221 from Scott Meyers
+After watching [this video](https://vimeo.com/97349221) from Scott Meyers
 where he showed an example of a strongly typed datetime class
 I thought this is a good fit for an F# Type Provider.
+
+> This is only a sample project to learn how to develop an F# Type provider.    
+> You should definitely check out Phil Trelfords [FSharp.Date](https://bitbucket.org/ptrelford/fsharp.date).
+> It is also available as [NuGet package](http://www.nuget.org/packages/FSharp.Date/).
 
 Example
 -------
@@ -49,7 +53,7 @@ Working with NodaTime
 ---------------------
 
 The Type Provider returns a ```Date``` record with the Fields ```Year```, ```Month``` and ```Day```. You can call the methods ```ToDateTime()``` and ```ToDateTimeOffset(?offset)``` to return a ```DateTime``` or a ```DateTimeOffset```.    
-Likewise you can write your own extension method to return a NodaTime ```LocalDate```.
+Likewise you can write your own extension method to return a [NodaTime](http://nodatime.org/) ```LocalDate```.
 
 
 ```fsharp
