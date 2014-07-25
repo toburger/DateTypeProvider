@@ -61,7 +61,7 @@ Likewise you can write your own extension method to return a NodaTime ```LocalDa
 Working with NodaTime
 ---------------------
 ```fsharp
-open NodeTime
+open NodaTime
 
 type FSharp.DateTypeProvider.Date with
     member self.ToLocalDate() =
