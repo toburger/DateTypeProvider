@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProvidedTypes.fs" />
+    <Compile Include="DateUtils.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="DateTypeProvider.fs" />
+    <Compile Include="DateTimeTypeProvider.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <PropertyGroup>

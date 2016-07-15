@@ -9,40 +9,68 @@ open Microsoft.FSharp.Reflection
 open ProviderImplementation.ProvidedTypes
 open DateProvider
 
-type Date =
+type DateTime =
     { Year : int
       Month : int
-      Day : int }
+      Day : int
+      Hour : int
+      Minute : int
+      Second : int }
     override self.ToString() =
-        sprintf "%04d-%02d-%02d"
+        sprintf "%04d-%02d-%02dT%02d:%02d:%02d"
                 self.Year self.Month self.Day
+                self.Hour self.Minute self.Second
     member self.ToDateTime() =
-        DateTime(self.Year, self.Month, self.Day)
+        DateTime(self.Year, self.Month, self.Day, self.Hour, self.Minute, self.Second)
     member self.ToDateTimeOffset(?offset) =
         let offset = offset |> defaultArg <| TimeSpan.Zero
-        DateTimeOffset(self.Year, self.Month, self.Day, 0, 0, 0, offset)
+        DateTimeOffset(self.Year, self.Month, self.Day, self.Hour, self.Minute, self.Second, offset)
 
 [<TypeProvider>]
-type DateTypeProvider() as self =
+type DateTimeTypeProvider() as self =
     inherit TypeProviderForNamespaces()
 
     let thisAssembly = Assembly.GetExecutingAssembly()
     let rootNamespace = "DateProvider"
     
-    let daysProp (year, month, day) =
-        let getter _ = <@@ { Date.Year = year; Month = month; Day = day } @@>
-        let prop = ProvidedProperty(propertyName = day.ToString("d2"),
-                                    propertyType = typeof<Date>,
+    let secondProp (year, month, day, hour, minute, second) =
+        let getter _ = <@@ { Year = year; Month = month; Day = day; Hour = hour; Minute = minute; Second = second } @@>
+        let prop = ProvidedProperty(propertyName = second.ToString("d2"),
+                                    propertyType = typeof<DateTime>,
                                     IsStatic = true,
                                     GetterCode = getter)
-        prop.AddXmlDocDelayed(fun () -> (DateTime(year, month, day)).ToLongDateString())
+        prop.AddXmlDocDelayed(fun () -> (DateTime(year, month, day, hour, minute, second)).ToString())
         prop
+
+    let minuteType (year, month, day, hour, (minute: int)) =
+        let t = ProvidedTypeDefinition(minute.ToString("d2"), Some typeof<obj>)
+        t.AddMembersDelayed(fun () ->
+            [ for second in 0..59 do
+                yield secondProp (year, month, day, hour, minute, second) ])
+        t.AddXmlDocDelayed(fun () -> (DateTime(year, month, day, hour, minute, 0)).ToString())
+        t
+
+    let hourType (year, month, day, (hour: int)) =
+        let t = ProvidedTypeDefinition(hour.ToString("d2"), Some typeof<obj>)
+        t.AddMembersDelayed(fun () ->
+            [ for minute in 0..59 do
+                yield minuteType (year, month, day, hour, minute) ])
+        t.AddXmlDocDelayed(fun () -> (DateTime(year, month, day, hour, 0, 0)).ToString())
+        t
+
+    let dayType (year, month, (day: int)) =
+        let t = ProvidedTypeDefinition(day.ToString("d2"), Some typeof<obj>)
+        t.AddMembersDelayed(fun () ->
+            [ for hour in 0..23 do
+                yield hourType (year, month, day, hour) ])
+        t.AddXmlDocDelayed(fun () -> (DateTime(year, month, day)).ToLongDateString())
+        t
 
     let monthType className (year, month) =
         let t = ProvidedTypeDefinition(className month, Some typeof<obj>)
         t.AddMembersDelayed(fun () ->
             let days = DateUtils.getDaysInMonth (year, month)
-            [ for day in 1..days -> daysProp (year, month, day) ])
+            [ for day in 1..days -> dayType (year, month, day) ])
         t.AddXmlDocDelayed(fun () -> (DateTime(year, month, 1)).ToString("MMMM yyyy"))
         t
 
@@ -63,7 +91,7 @@ type DateTypeProvider() as self =
         t
 
     let containerType =
-        let t = ProvidedTypeDefinition(thisAssembly, rootNamespace, "Date", Some typeof<obj>)
+        let t = ProvidedTypeDefinition(thisAssembly, rootNamespace, "DateTime", Some typeof<obj>)
         t.AddMembersDelayed(fun () ->
             DateUtils.getCurrentCentury()
             |> DateUtils.getYearsInCentury
