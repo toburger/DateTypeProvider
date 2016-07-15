@@ -1,6 +1,8 @@
 DateTypeProvider
 ================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/nsf7rnpoesi37oi4?svg=true)](https://ci.appveyor.com/project/toburger/datetypeprovider)
+
 F# Date Type Provider which provides strong type checking for dates.
 
 > This is only a sample project to learn how to develop an F# Type provider.    
