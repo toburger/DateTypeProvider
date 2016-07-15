@@ -15,8 +15,19 @@ Target "Build" <| fun _ ->
     |> MSBuildRelease buildDir "Build"
     |> Log "AppBuild-Output: "
 
+Target "IntegrationTest" <| fun _ ->
+    Log "Executing: " (!! ("Scripts" @@ "Test.fsx"))
+    let success, msgs = executeFSI "Scripts" "Test.fsx" []
+    traceHeader "Output: "
+    for msg in msgs do
+        trace msg.Message
+    traceLine ()
+    if not success then
+        failwith "Error while executing integration test script"
+
 "Clean"
 ==> "Build"
+==> "IntegrationTest"
 ==> "Default"
 
 RunTargetOrDefault "Default"

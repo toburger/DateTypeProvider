@@ -1,4 +1,4 @@
-﻿#r @".\bin\Debug\FSharp.DateTypeProvider.dll"
+﻿#r @"..\build\FSharp.DateTypeProvider.dll"
 
 open DateProvider
 
