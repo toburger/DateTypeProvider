@@ -30,7 +30,7 @@ type DateTypeProvider() as self =
     let rootNamespace = "DateProvider"
     
     let daysProp (year, month, day) =
-        let getter _ = <@@ { Date.Year = year; Month = month; Day = day } @@>
+        let getter _ = <@@ { Year = year; Month = month; Day = day } @@>
         let prop = ProvidedProperty(propertyName = day.ToString("d2"),
                                     propertyType = typeof<Date>,
                                     IsStatic = true,

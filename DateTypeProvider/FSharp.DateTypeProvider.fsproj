@@ -47,6 +47,7 @@
     <Compile Include="DateUtils.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="DateTypeProvider.fs" />
+    <Compile Include="TimeTypeProvider.fs" />
     <Compile Include="DateTimeTypeProvider.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
