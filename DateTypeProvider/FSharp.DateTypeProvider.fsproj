@@ -64,6 +64,7 @@
     <Compile Include="TimeTypeProvider.fs" />
     <Compile Include="DateTimeTypeProvider.fs" />
     <None Include="Script.fsx" />
+    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
