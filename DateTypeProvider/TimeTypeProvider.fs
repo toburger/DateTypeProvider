@@ -9,16 +9,6 @@ open Microsoft.FSharp.Reflection
 open ProviderImplementation.ProvidedTypes
 open DateProvider
 
-type Time =
-    { Hour : int
-      Minute : int
-      Second : int }
-    override self.ToString() =
-        sprintf "%02d:%02d:%02d"
-                self.Hour self.Minute self.Second
-    member self.ToTimeSpan() =
-        TimeSpan(self.Hour, self.Minute, self.Second)
-
 [<TypeProvider>]
 type TimeTypeProvider() as self =
     inherit TypeProviderForNamespaces()
@@ -27,7 +17,7 @@ type TimeTypeProvider() as self =
     let rootNamespace = "DateProvider"
     
     let secondProp (hour, minute, second) =
-        let getter _ = <@@ { Hour = hour; Minute = minute; Second = second } @@>
+        let getter _ = <@@ { Time.Hour = hour; Minute = minute; Second = second } @@>
         let prop = ProvidedProperty(propertyName = second.ToString("d2"),
                                     propertyType = typeof<Time>,
                                     IsStatic = true,

@@ -9,23 +9,6 @@ open Microsoft.FSharp.Reflection
 open ProviderImplementation.ProvidedTypes
 open DateProvider
 
-type DateTime =
-    { Year : int
-      Month : int
-      Day : int
-      Hour : int
-      Minute : int
-      Second : int }
-    override self.ToString() =
-        sprintf "%04d-%02d-%02dT%02d:%02d:%02d"
-                self.Year self.Month self.Day
-                self.Hour self.Minute self.Second
-    member self.ToDateTime() =
-        DateTime(self.Year, self.Month, self.Day, self.Hour, self.Minute, self.Second)
-    member self.ToDateTimeOffset(?offset) =
-        let offset = offset |> defaultArg <| TimeSpan.Zero
-        DateTimeOffset(self.Year, self.Month, self.Day, self.Hour, self.Minute, self.Second, offset)
-
 [<TypeProvider>]
 type DateTimeTypeProvider() as self =
     inherit TypeProviderForNamespaces()

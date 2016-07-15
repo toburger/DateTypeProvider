@@ -9,19 +9,6 @@ open Microsoft.FSharp.Reflection
 open ProviderImplementation.ProvidedTypes
 open DateProvider
 
-type Date =
-    { Year : int
-      Month : int
-      Day : int }
-    override self.ToString() =
-        sprintf "%04d-%02d-%02d"
-                self.Year self.Month self.Day
-    member self.ToDateTime() =
-        DateTime(self.Year, self.Month, self.Day)
-    member self.ToDateTimeOffset(?offset) =
-        let offset = offset |> defaultArg <| TimeSpan.Zero
-        DateTimeOffset(self.Year, self.Month, self.Day, 0, 0, 0, offset)
-
 [<TypeProvider>]
 type DateTypeProvider() as self =
     inherit TypeProviderForNamespaces()
@@ -30,7 +17,7 @@ type DateTypeProvider() as self =
     let rootNamespace = "DateProvider"
     
     let daysProp (year, month, day) =
-        let getter _ = <@@ { Year = year; Month = month; Day = day } @@>
+        let getter _ = <@@ { Date.Year = year; Month = month; Day = day } @@>
         let prop = ProvidedProperty(propertyName = day.ToString("d2"),
                                     propertyType = typeof<Date>,
                                     IsStatic = true,
