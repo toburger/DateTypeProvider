@@ -19,7 +19,7 @@ type DateTimeTypeProvider() as self =
     let secondProp (year, month, day, hour, minute, second) =
         let getter _ = <@@ { Year = year; Month = month; Day = day; Hour = hour; Minute = minute; Second = second } @@>
         let prop = ProvidedProperty(propertyName = second.ToString("d2"),
-                                    propertyType = typeof<DateTime>,
+                                    propertyType = typeof<FSharp.DateTypeProvider.DateTime>,
                                     IsStatic = true,
                                     GetterCode = getter)
         prop.AddXmlDocDelayed(fun () -> (DateTime(year, month, day, hour, minute, second)).ToString())
