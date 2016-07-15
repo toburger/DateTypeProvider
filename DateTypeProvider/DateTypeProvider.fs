@@ -69,8 +69,8 @@ type DateTypeProvider() as self =
             |> DateUtils.getYearsInCentury
             |> List.map yearType)
         t.DefineStaticParameters(
-            staticParameters = [ProvidedStaticParameter("century", typeof<Century>)],
-            apply = (fun typeName parameterValues ->
+            parameters = [ProvidedStaticParameter("century", typeof<Century>)],
+            instantiationFunction = (fun typeName parameterValues ->
                 match parameterValues with
                 | [| :? int as century |] when DateUtils.isValidCentury century -> century
                 | _ -> DateUtils.getCurrentCentury()

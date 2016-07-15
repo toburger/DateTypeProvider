@@ -1,0 +1,9 @@
+
+GITHUB
+  remote: fsprojects/FSharp.TypeProviders.StarterPack
+    src/ProvidedTypes.fs (dfbca9b83fb70067e85abddcb8b89332aae4c28d)
+    src/ProvidedTypes.fsi (dfbca9b83fb70067e85abddcb8b89332aae4c28d)
+GROUP build
+NUGET
+  remote: https://www.nuget.org/api/v2
+    FAKE (4.31.1)
