@@ -2,6 +2,7 @@ DateTypeProvider
 ================
 
 [![Build status](https://ci.appveyor.com/api/projects/status/nsf7rnpoesi37oi4?svg=true)](https://ci.appveyor.com/project/toburger/datetypeprovider)
+[![NuGet Badge](https://buildstats.info/nuget/FSharp.DateTypeProvider)](https://www.nuget.org/packages/FSharp.DateTypeProvider/)
 
 F# Date Type Provider which provides strong type checking for dates.
 
