@@ -10,8 +10,8 @@ open ProviderImplementation.ProvidedTypes
 open DateProvider
 
 [<TypeProvider>]
-type DateTimeTypeProvider() as self =
-    inherit TypeProviderForNamespaces()
+type DateTimeTypeProvider(config) as self =
+    inherit TypeProviderForNamespaces(config)
 
     let thisAssembly = Assembly.GetExecutingAssembly()
     let rootNamespace = "DateProvider"
@@ -20,8 +20,8 @@ type DateTimeTypeProvider() as self =
         let getter _ = <@@ { Year = year; Month = month; Day = day; Hour = hour; Minute = minute; Second = second } @@>
         let prop = ProvidedProperty(propertyName = second.ToString("d2"),
                                     propertyType = typeof<FSharp.DateTypeProvider.DateTime>,
-                                    IsStatic = true,
-                                    GetterCode = getter)
+                                    isStatic = true,
+                                    getterCode = getter)
         prop.AddXmlDocDelayed(fun () -> (DateTime(year, month, day, hour, minute, second)).ToString())
         prop
 
