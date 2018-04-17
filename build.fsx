@@ -74,7 +74,10 @@ Target "NuGet" <| fun _ ->
             Authors = authors
             Project = project
             Description = description
-            OutputPath = "bin" })
+            OutputPath = "bin"
+            AccessKey = getBuildParamOrDefault "nugetkey" ""
+            Publish = hasBuildParam "nugetkey"
+            Dependencies = [] })
         "nuget/FSharp.DateTypeProvider.nuspec"
 
 "Clean"
