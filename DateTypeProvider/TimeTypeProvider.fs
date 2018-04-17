@@ -15,7 +15,7 @@ type TimeTypeProvider() as self =
 
     let thisAssembly = Assembly.GetExecutingAssembly()
     let rootNamespace = "DateProvider"
-    
+
     let secondProp (hour, minute, second) =
         let getter _ = <@@ { Time.Hour = hour; Minute = minute; Second = second } @@>
         let prop = ProvidedProperty(propertyName = second.ToString("d2"),
@@ -43,7 +43,7 @@ type TimeTypeProvider() as self =
 
     let containerType =
         let t = ProvidedTypeDefinition(thisAssembly, rootNamespace, "Time", Some typeof<obj>)
-        t.AddMembersDelayed(fun () -> 
+        t.AddMembersDelayed(fun () ->
             [ for hour in 0..23 do
                 yield hourType hour ])
         t

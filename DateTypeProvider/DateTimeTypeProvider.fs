@@ -15,7 +15,7 @@ type DateTimeTypeProvider() as self =
 
     let thisAssembly = Assembly.GetExecutingAssembly()
     let rootNamespace = "DateProvider"
-    
+
     let secondProp (year, month, day, hour, minute, second) =
         let getter _ = <@@ { Year = year; Month = month; Day = day; Hour = hour; Minute = minute; Second = second } @@>
         let prop = ProvidedProperty(propertyName = second.ToString("d2"),
