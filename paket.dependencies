@@ -1,6 +1,7 @@
 source https://www.nuget.org/api/v2
 
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fsi
+nuget FSharp.Core
 github fsprojects/FSharp.TypeProviders.SDK src/ProvidedTypes.fs
 
 group build
