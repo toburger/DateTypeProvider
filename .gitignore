@@ -160,3 +160,4 @@ paket.exe
 build/
 packages/
 paket-files/
+.localhistory/
