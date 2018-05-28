@@ -13,7 +13,6 @@ let getSdkPath() = (defaultArg sdkPath "dotnet")
 
 printfn "Desired .NET SDK version = %s" desiredSdkVersion
 printfn "DotNetCli.isInstalled() = %b" (DotNetCli.isInstalled())
-let useMsBuildToolchain = environVar "USE_MSBUILD" <> null
 
 if DotNetCli.isInstalled() then
     let installedSdkVersion = DotNetCli.getVersion()
