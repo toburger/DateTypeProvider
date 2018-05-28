@@ -8,3 +8,4 @@ group build
 source https://www.nuget.org/api/v2
 
 nuget fake
+nuget NuGet.CommandLine
